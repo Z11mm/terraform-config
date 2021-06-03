@@ -6,7 +6,7 @@ provider "google" {
 
 # Specify vm instance
 resource "google_compute_instance" "default" {
-  name = "test_instance_1"
+  name = "test-instance-1"
   machine_type = "e2-medium"
   zone = "us-central1-a"
 
@@ -18,7 +18,7 @@ resource "google_compute_instance" "default" {
     initialize_params {
         image = "debian-10-buster-v20210512"
         type = "pd-balanced"
-        size = "10GB"
+        size = 10
     }
   }
 }
