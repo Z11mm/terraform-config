@@ -50,6 +50,7 @@ resource "google_compute_firewall" "default" {
   direction = "INGRESS"
 }
 
+# Output public ip assigned after vm instance creation
 output "public_ip" {
   value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
 }
