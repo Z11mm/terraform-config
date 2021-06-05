@@ -1,6 +1,6 @@
 # Specify cloud provider
 provider "google" {
-    credentials = "${file("my-startup-project-281916-7c26344b85ac.json")}"
+    credentials = "${file("terraform-demo-instance-service-acc.json")}"
     project = "my-startup-project-281916"
     region = "us-central1"
 }
@@ -11,14 +11,14 @@ resource "google_compute_instance" "default" {
   machine_type = "e2-medium"
   zone = "us-central1-a"
 
-#  Apply the firewall rule to allow external IPs to access this instance
+    //  Apply the firewall rule to allow external IPs to access this instance
   tags = [ "http-server" ]
 
   network_interface {
     network = "default"
 
     access_config {
-    #   Include this block to give the VM a public IP address
+    //   Include this block to give the VM a public IP address
     }
   }
 
@@ -30,7 +30,7 @@ resource "google_compute_instance" "default" {
     }
   }
 
-# Run web server on instance
+    // Run web server on instance
   metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 -y && echo '<!doctype html><html><body><h1>Hello from Terraform on Google Cloud!</h1></body></html>' | sudo tee /var/www/html/index.html"
 }
 
@@ -41,7 +41,7 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports = ["8080"]
+    ports = ["80"]
   }
 
   source_ranges = [ "0.0.0.0/0" ]
@@ -50,6 +50,6 @@ resource "google_compute_firewall" "default" {
   direction = "INGRESS"
 }
 
-output "public ip" {
+output "public_ip" {
   value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
 }
